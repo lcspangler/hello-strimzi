@@ -1,0 +1,47 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>org.example</groupId>
+  <artifactId>hello-strimzi</artifactId>
+  <packaging>war</packaging>
+  <version>1.0-SNAPSHOT</version>
+  <name>Strimzi Hello World</name>
+  <url>http://maven.apache.org</url>
+  <dependencies>
+     <dependency>
+        <groupId>org.jboss.resteasy</groupId>
+         <artifactId>resteasy-jaxrs</artifactId>
+        <version>2.3.1.GA</version>
+        <scope>compile</scope>
+    </dependency>
+   <!-- JAXB support -->
+   <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+        <artifactId>resteasy-jaxb-provider</artifactId>
+      <version>2.3.1.GA</version>
+      <scope>compile</scope>
+   </dependency>
+   <!-- multipart/form-data and multipart/mixed support -->
+   <dependency>
+      <groupId>org.jboss.resteasy</groupId>
+        <artifactId>resteasy-multipart-provider</artifactId>
+      <version>2.3.1.GA</version>
+      <scope>compile</scope>
+   </dependency>
+   <dependency>
+        <groupId>net.sf.scannotation</groupId>
+        <artifactId>scannotation</artifactId>
+        <version>1.0.2</version>
+        <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>3.8.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <finalName>hello-strimzi</finalName>
+  </build>
+</project>
