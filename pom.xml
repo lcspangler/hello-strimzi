@@ -18,33 +18,21 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <parent>
-           <groupId>org.jboss.eap.quickstarts</groupId>
-           <artifactId>quickstart-parent</artifactId>
-           <version>7.1.0.GA</version>
-           <relativePath>../pom.xml</relativePath>
-       </parent>
-    <artifactId>helloworld</artifactId>
+
+    <groupId>org.example</groupId>
+    <artifactId>hello-strimzi</artifactId>
+    <version>1.0.0.0</version>
     <packaging>war</packaging>
-    <name>${qs.name.prefix} helloworld</name>
-    <description>Helloworld</description>
+    <name>strimzi helloworld</name>
+    <description>Strimzi Helloworld</description>
     
-
-    <licenses>
-        <license>
-            <name>Apache License, Version 2.0</name>
-            <distribution>repo</distribution>
-            <url>http://www.apache.org/licenses/LICENSE-2.0.html</url>
-        </license>
-    </licenses>
-
-
     <dependencies>
 
         <!-- Import the CDI API, we use provided scope as the API is included in WildFly -->
         <dependency>
             <groupId>javax.enterprise</groupId>
             <artifactId>cdi-api</artifactId>
+            <version>2.0</version>
             <scope>provided</scope>
         </dependency>
 
@@ -53,6 +41,7 @@
         <dependency>
             <groupId>org.jboss.spec.javax.annotation</groupId>
             <artifactId>jboss-annotations-api_1.2_spec</artifactId>
+            <version>1.0.2.Final</version>
             <scope>provided</scope>
         </dependency>
 
@@ -60,6 +49,7 @@
         <dependency>
             <groupId>org.jboss.spec.javax.servlet</groupId>
             <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+            <version>1.0.2.Final</version>
             <scope>provided</scope>
         </dependency>
 
