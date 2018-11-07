@@ -19,6 +19,13 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
+    <parent>
+           <groupId>org.jboss.eap.quickstarts</groupId>
+           <artifactId>quickstart-parent</artifactId>
+           <version>7.1.0.GA</version>
+           <relativePath>../pom.xml</relativePath>
+    </parent>
+
     <groupId>org.example</groupId>
     <artifactId>hello-strimzi</artifactId>
     <version>1.0.0.0</version>
@@ -26,7 +33,6 @@
     <description>Strimzi Helloworld</description>
     
     <dependencies>
-
         <!-- Import the CDI API, we use provided scope as the API is included in WildFly -->
         <dependency>
             <groupId>javax.enterprise</groupId>
@@ -94,7 +100,7 @@
 				<plugins>
 					<plugin>
 						<artifactId>maven-war-plugin</artifactId>
-						<version>3.2.2</version>
+						<version>${version.war.plugin}</version>
 						<configuration>
 							<outputDirectory>deployments</outputDirectory>
 							<warName>ROOT</warName>
