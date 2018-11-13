@@ -143,7 +143,7 @@ Make a configmap for the environment variables:
 $ oc create configmap hello-strimzi-producer-config --from-file=hello-strimzi-producer/src/main/resources/properties/producer.properties
 ```
  
-Note: Edit bootstrap IP in the configmap as needed based on the my-cluster-kafka-bootstrap service in kafka-cluster project
+Note: Edit bootstrap IP in the configmap as needed based on the my-cluster-kafka-external-bootstrap service in kafka-cluster project
 ```
 $ oc get services
 NAME                                  TYPE           CLUSTER-IP       EXTERNAL-IP                     PORT(S)                      AGE
@@ -156,7 +156,7 @@ my-cluster-kafka-external-bootstrap   LoadBalancer   172.30.84.134    172.29.241
 my-cluster-zookeeper-client           ClusterIP      172.30.204.158   <none>                          2181/TCP                     55m
 my-cluster-zookeeper-nodes            ClusterIP      None             <none>                          2181/TCP,2888/TCP,3888/TCP   55m
 ```
- 
+
 
  
  
