@@ -14,26 +14,44 @@ public class ExampleConsumerConfig {
 	private final String bootstrapServers;
 	private final String topic;
 	private final String groupId;
-	private final String autoOffsetReset = "earliest";
-	private final String enableAutoCommit = "false";
-	private final String securityProtocol = "PLAINTEXT";
-	private final String serializerClass = "org.apache.kafka.common.serialization.StringSerializer";
+	private final String autoOffsetReset;
+	private final String enableAutoCommit;
+	private final String securityProtocol;
+	private final String serializerClass;
 
-	public ExampleConsumerConfig(String bootstrapServers, String topic, String groupId) {
+	public ExampleConsumerConfig(String bootstrapServers, String topic, String groupId, String autoOffsetReset, String enableAutoCommit, String securityProtocol, String serializerClass) {
 		this.bootstrapServers = bootstrapServers;
 		this.topic = topic;
 		this.groupId = groupId;
+		this.autoOffsetReset = autoOffsetReset;
+		this.enableAutoCommit = enableAutoCommit;
+		this.securityProtocol = securityProtocol;
+		this.serializerClass = serializerClass;
 	}
 
 	public static ExampleConsumerConfig fromEnv() {
 		String bootstrapServers = System.getenv("BOOTSTRAP_SERVERS");
 		log.info("BOOTSTRAP_SERVERS: {}", bootstrapServers);
-		String topic = System.getenv("TOPIC_1");
-		log.info("TOPIC_1: {}", topic);
+		
+		String topic = System.getenv("CONSUMER_TOPIC");
+		log.info("CONSUMER_TOPIC: {}", topic);
+		
 		String groupId = System.getenv("GROUP_ID");
 		log.info("GROUP_ID: {}", groupId);
+		
+		String autoOffsetReset = System.getenv("AUTO_OFFSET_RESET");
+		log.info("AUTO_OFFSET_RESET: {}", autoOffsetReset);
+		
+		String enableAutoCommit = System.getenv("ENABLE_AUTO_COMMIT");
+		log.info("ENABLE_AUTO_COMMIT: {}", enableAutoCommit);
+		
+		String securityProtocol = System.getenv("SECURITY_PROTOCOL");
+		log.info("SECURITY_PROTOCOL: {}", securityProtocol);
+		
+		String serializerClass = System.getenv("SERIALIZER_CLASS");
+		log.info("SERIALIZER_CLASS: {}", serializerClass);
 
-		return new ExampleConsumerConfig(bootstrapServers, topic, groupId);
+		return new ExampleConsumerConfig(bootstrapServers, topic, groupId, autoOffsetReset, enableAutoCommit, securityProtocol, serializerClass);
 	}
 
 	public static Properties createProperties(ExampleConsumerConfig config) {

@@ -12,22 +12,35 @@ public class ExampleProducerConfig {
 
 	private final String bootstrapServers;
 	private final String topic;
-	private final String acks = "1";
-	private final String securityProtocol = "PLAINTEXT";
-	private final String serializerClass = "org.apache.kafka.common.serialization.StringSerializer";
+	private final String acks;
+	private final String securityProtocol;
+	private final String serializerClass;
 
-	public ExampleProducerConfig(String bootstrapServers, String topic) {
+	public ExampleProducerConfig(String bootstrapServers, String topic, String securityProtocol, String serializerClass, String acks) {
 		this.bootstrapServers = bootstrapServers;
 		this.topic = topic;
+		this.securityProtocol = securityProtocol;
+		this.serializerClass = serializerClass;
+		this.acks = acks;
 	}
 
 	public static ExampleProducerConfig fromEnv() {
 		String bootstrapServers = System.getenv("BOOTSTRAP_SERVERS");
 		log.info("BOOTSTRAP_SERVERS: {}", bootstrapServers);
-		String topic = System.getenv("TOPIC_1");
-		log.info("TOPIC_1: {}", topic);
+		
+		String topic = System.getenv("PRODUCER_TOPIC");
+		log.info("PRODUCER_TOPIC: {}", topic);
+		
+		String securityProtocol = System.getenv("SECURITY_PROTOCOL");
+		log.info("SECURITY_PROTOCOL: {}", securityProtocol);
+		
+		String serializerClass = System.getenv("SERIALIZER_CLASS");
+		log.info("SERIALIZER_CLASS: {}", serializerClass);
 
-		return new ExampleProducerConfig(bootstrapServers, topic);
+		String acks = System.getenv("ACKS");
+		log.info("ACKS: {}", acks);
+		
+		return new ExampleProducerConfig(bootstrapServers, topic, securityProtocol, serializerClass, acks);
 	}
 
 	public static Properties createProperties(ExampleProducerConfig config) {
