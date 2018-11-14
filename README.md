@@ -1,6 +1,6 @@
 # hello-strimzi
 
-A Strimzi hello world example demonstrating Kafka:
+A Strimzi hello world example demonstrating Kafka on Openshift:
 - Producer
 - Stream
 - Consumer
@@ -29,11 +29,9 @@ References:
 #### OC and Minishift
 
 Follow the Minishift install instructions according to your environment:
-
 https://docs.okd.io/latest/minishift/getting-started/preparing-to-install.html
 
 Install the most recent `oc` binary:
-
 https://github.com/openshift/origin/releases 
 
 Ensure that Minishift and `oc` versions are aligned:
@@ -167,7 +165,7 @@ $ oc set env dc/hello-strimzi-producer --from configmap/hello-strimzi-producer-c
 Try the URL GET http://hello-strimzi-producer-hello-strimzi-producer.192.168.64.6.nip.io/rest/message/helloworld
 
 The producer application logs should show messages being sent:
-![hello strimzi](https://github.com/lcspangler/hello-strimzi/blob/master/images/producer_logs.png)
+![hello strimzi producer](https://github.com/lcspangler/hello-strimzi/blob/master/images/producer_logs.png)
 
 
 
@@ -212,7 +210,8 @@ Set environment variables for producer application using the configmap:
 $ oc set env dc/hello-strimzi-consumer --from configmap/hello-strimzi-consumer-config
 ```
 
-Pod application logs should show messages received from producer:
+Pod application logs should show polling the topic and messages received from producer:
+![hello strimzi consumer](https://github.com/lcspangler/hello-strimzi/blob/master/images/consumer_logs.png)
 
 
 
