@@ -48,7 +48,7 @@ public class ExampleConsumerConfig {
 		String securityProtocol = System.getenv("SECURITY_PROTOCOL");
 		log.info("SECURITY_PROTOCOL: {}", securityProtocol);
 		
-		String deserializerClass = System.getenv("SERIALIZER_CLASS");
+		String deserializerClass = System.getenv("DESERIALIZER_CLASS");
 		log.info("DESERIALIZER_CLASS: {}", deserializerClass);
 
 		return new ExampleConsumerConfig(bootstrapServers, topic, groupId, autoOffsetReset, enableAutoCommit, securityProtocol, deserializerClass);

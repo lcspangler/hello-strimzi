@@ -6,9 +6,12 @@ A Strimzi hello world example demonstrating Kafka:
 - Consumer
 - Stream Queries
 
+![hello strimzi](https://github.com/lcspangler/hello-strimzi/blob/master/images/hello_strimzi.png)
+
+
 Guide includes local Minishift environment setup instructions. 
 
-The application builds using s2i with the Wildfly - CentOS docker image, but the official Jboss EAP 7 image and OpenShift can be substituted. 
+The application builds using s2i with the Wildfly - CentOS docker image, but the official Jboss EAP 7 image (registry.access.redhat.com/jboss-eap-7/eap70-openshift) and OpenShift can be substituted. 
 
 References:
 - https://docs.okd.io/latest/minishift/getting-started/
@@ -163,7 +166,8 @@ $ oc set env dc/hello-strimzi-producer --from configmap/hello-strimzi-producer-c
 
 Try the URL GET http://hello-strimzi-producer-hello-strimzi-producer.192.168.64.6.nip.io/rest/message/helloworld
 
-The logs should show messages being sent:
+The producer application logs should show messages being sent:
+![hello strimzi](https://github.com/lcspangler/hello-strimzi/blob/master/images/producer_logs.png)
 
 
 
@@ -198,7 +202,7 @@ $ oc create configmap hello-strimzi-consumer-config \
             --from-literal=CONSUMER_TOPIC=my-topic-1 \
             --from-literal=GROUP_ID=my-group \
             --from-literal=SECURITY_PROTOCOL=PLAINTEXT \
-            --from-literal=DESERIALIZER_CLASS=org.apache.kafka.common.serialization.StringSerializer \
+            --from-literal=DESERIALIZER_CLASS=org.apache.kafka.common.serialization.StringDeserializer \
             --from-literal=AUTO_OFFSET_RESET=earliest \
             --from-literal=ENABLE_AUTO_COMMIT=true
 ```
