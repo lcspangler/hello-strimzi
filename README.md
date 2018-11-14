@@ -99,7 +99,6 @@ $ oc apply -f kafka/kafka-topic-2.yaml -n kafka-cluster
 ```
 
 Confirm on each Kafka broker that the topics were replicated.
-
 ```
 $ oc exec -it my-cluster-kafka-0 -c kafka -- bin/kafka-topics.sh --zookeeper localhost:2181 --list
 my-topic-1
@@ -205,13 +204,14 @@ $ oc create configmap hello-strimzi-consumer-config \
             --from-literal=ENABLE_AUTO_COMMIT=true
 ```
 
-Set environment variables for producer application using the configmap:
+Set environment variables for consumer application using the configmap:
 ```
 $ oc set env dc/hello-strimzi-consumer --from configmap/hello-strimzi-consumer-config
 ```
 
 Pod application logs should show polling the topic and messages received from producer:
 ![hello strimzi consumer](https://github.com/lcspangler/hello-strimzi/blob/master/images/consumer_logs.png)
+
 
 
 

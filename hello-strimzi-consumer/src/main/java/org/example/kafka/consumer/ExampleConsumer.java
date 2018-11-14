@@ -30,7 +30,7 @@ public class ExampleConsumer {
 	}
 
 	@SuppressWarnings("unchecked")
-	public String consume() {
+	public void consume() {
 		consumer.subscribe(Collections.singletonList(config.getTopic()));
 		log.info("Subscribed to topics: {}", consumer.listTopics());
 		
