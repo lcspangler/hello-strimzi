@@ -38,9 +38,6 @@ public class ExampleStreamConfig {
     String outboundTopic = System.getenv("OUTBOUND_TOPIC");
     log.info("OUTBOUND_TOPIC: {}", outboundTopic);
 
-    String groupId = System.getenv("GROUP_ID");
-    log.info("GROUP_ID: {}", groupId);
-
     String autoOffsetReset = System.getenv("AUTO_OFFSET_RESET");
     log.info("AUTO_OFFSET_RESET: {}", autoOffsetReset);
 

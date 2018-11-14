@@ -217,8 +217,37 @@ Pod application logs should show polling the topic and messages received from pr
 
 #### Kafka Stream
 
+Create a new project for the consumer application and change to it:
+```
+$ oc new-project hello-strimzi-stream
+$ oc project hello-strimzi-stream
+```
 
+Create new application for the consumer:
+```
+ $ oc new-app openshift/wildfly-101-centos7~https://github.com/lcspangler/hello-strimzi.git --context-dir=/hello-strimzi-consumer --name=hello-strimzi-stream
+```
 
+Confirm the build completes successfully:
+```
+$ oc logs -f bc/hello-strimzi-stream
+```
+
+The consumer is not accessible externally so there is no need to expose a route.
+
+Create a configmap for the stream environment variables:
+```
+$ oc project kafka-cluster
+$ bootstrap=`oc get service my-cluster-kafka-bootstrap -o=jsonpath='{.spec.clusterIP}{"\n"}'`
+$ bootstrap="${bootstrap}:9092"
+$ oc project hello-strimzi-stream
+$ oc create configmap hello-strimzi-stream-config \
+            --from-literal=BOOTSTRAP_SERVERS="${bootstrap}" \
+            --from-literal=INBOUND_TOPIC=my-topic-1 \
+            --from-literal=OUTBOUND_TOPIC=my-topic-2 \
+            --from-literal=SECURITY_PROTOCOL=PLAINTEXT \
+            --from-literal=AUTO_OFFSET_RESET=earliest 
+```
 
 
 #### Kafka Stream Queries
