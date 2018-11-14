@@ -17,16 +17,16 @@ public class ExampleConsumerConfig {
 	private final String autoOffsetReset;
 	private final String enableAutoCommit;
 	private final String securityProtocol;
-	private final String serializerClass;
+	private final String deserializerClass;
 
-	public ExampleConsumerConfig(String bootstrapServers, String topic, String groupId, String autoOffsetReset, String enableAutoCommit, String securityProtocol, String serializerClass) {
+	public ExampleConsumerConfig(String bootstrapServers, String topic, String groupId, String autoOffsetReset, String enableAutoCommit, String securityProtocol, String deserializerClass) {
 		this.bootstrapServers = bootstrapServers;
 		this.topic = topic;
 		this.groupId = groupId;
 		this.autoOffsetReset = autoOffsetReset;
 		this.enableAutoCommit = enableAutoCommit;
 		this.securityProtocol = securityProtocol;
-		this.serializerClass = serializerClass;
+		this.deserializerClass = deserializerClass;
 	}
 
 	public static ExampleConsumerConfig fromEnv() {
@@ -48,10 +48,10 @@ public class ExampleConsumerConfig {
 		String securityProtocol = System.getenv("SECURITY_PROTOCOL");
 		log.info("SECURITY_PROTOCOL: {}", securityProtocol);
 		
-		String serializerClass = System.getenv("SERIALIZER_CLASS");
-		log.info("SERIALIZER_CLASS: {}", serializerClass);
+		String deserializerClass = System.getenv("SERIALIZER_CLASS");
+		log.info("DESERIALIZER_CLASS: {}", deserializerClass);
 
-		return new ExampleConsumerConfig(bootstrapServers, topic, groupId, autoOffsetReset, enableAutoCommit, securityProtocol, serializerClass);
+		return new ExampleConsumerConfig(bootstrapServers, topic, groupId, autoOffsetReset, enableAutoCommit, securityProtocol, deserializerClass);
 	}
 
 	public static Properties createProperties(ExampleConsumerConfig config) {
@@ -60,8 +60,8 @@ public class ExampleConsumerConfig {
 		props.put(ConsumerConfig.GROUP_ID_CONFIG, config.getGroupId());
 		props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, config.getAutoOffsetReset());
 		props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, true);
-		props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, config.getSerializerClass());
-		props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, config.getSerializerClass());
+		props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, config.getDeserializerClass());
+		props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, config.getDeserializerClass());
 		props.put(CommonClientConfigs.SECURITY_PROTOCOL_CONFIG, config.getSecurityProtocol());
 
 		return props;
@@ -91,8 +91,8 @@ public class ExampleConsumerConfig {
 		return securityProtocol;
 	}
 
-	public String getSerializerClass() {
-		return serializerClass;
+	public String getDeserializerClass() {
+		return deserializerClass;
 	}
 
 }

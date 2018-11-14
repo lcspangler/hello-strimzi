@@ -13,10 +13,12 @@ The application builds using s2i with the Wildfly - CentOS docker image, but the
 References:
 - https://docs.okd.io/latest/minishift/getting-started/
 - http://strimzi.io/quickstarts/okd/
+- https://github.com/stanlyDoge/SMOKER
 - https://blog.osninja.io/source-to-image-part-one/
 - https://github.com/openshift-s2i/s2i-wildfly/blob/master/README.md
 - https://github.com/openshift/openshift-jee-sample.git
 - https://github.com/jboss-developer/jboss-eap-quickstarts/tree/7.1/spring-resteasy
+
 
 
 ## Manual Setup
@@ -41,6 +43,7 @@ features: Basic-Auth
 Server https://192.168.64.6:8443
 kubernetes v1.11.0+d4cacc0
 ```
+
 
 #### Strimzi Cluster and Kafka Topics
 
@@ -90,8 +93,8 @@ strimzi-cluster-operator-56d699b5c5-ch9r2     1/1       Running   0          2m
 
 Create the topics for the hello strimzi application:
 ```
-$ oc apply -f kafka/kafka-topic1.yaml
-$ oc apply -f kafka/kafka-topic2.yaml
+$ oc apply -f kafka/kafka-topic-1.yaml -n kafka-cluster
+$ oc apply -f kafka/kafka-topic-2.yaml -n kafka-cluster
 ```
 
 Confirm on each Kafka broker that the topics were replicated.
@@ -141,7 +144,7 @@ route.route.openshift.io/hello-strimzi-producer exposed
 Create a configmap for the producer environment variables:
 ```
 $ oc project kafka-cluster
-$ bootstrap=`oc get service my-cluster-kafka-external-bootstrap -o=jsonpath='{.status.loadBalancer.ingress[0].ip}{"\n"}'`
+$ bootstrap=`oc get service my-cluster-kafka-bootstrap -o=jsonpath='{.spec.clusterIP}{"\n"}'`
 $ bootstrap="${bootstrap}:9092"
 $ oc project hello-strimzi-producer
 $ oc create configmap hello-strimzi-producer-config \
@@ -157,6 +160,89 @@ Set environment variables for producer application using the configmap:
 ```
 $ oc set env dc/hello-strimzi-producer --from configmap/hello-strimzi-producer-config
 ```
+
+Try the URL GET http://hello-strimzi-producer-hello-strimzi-producer.192.168.64.6.nip.io/rest/message/helloworld
+
+The logs should show messages being sent:
+
+
+
+#### Kafka Consumer
+
+Create a new project for the consumer application and change to it:
+```
+$ oc new-project hello-strimzi-consumer
+$ oc project hello-strimzi-consumer
+```
+
+Create new application for the consumer:
+```
+ $ oc new-app openshift/wildfly-101-centos7~https://github.com/lcspangler/hello-strimzi.git --context-dir=/hello-strimzi-consumer --name=hello-strimzi-consumer
+```
+
+Confirm the build completes successfully:
+```
+$ oc logs -f bc/hello-strimzi-consumer
+```
+
+The consumer is not accessible externally so there is no need to expose a route.
+
+Create a configmap for the consumer environment variables:
+```
+$ oc project kafka-cluster
+$ bootstrap=`oc get service my-cluster-kafka-bootstrap -o=jsonpath='{.spec.clusterIP}{"\n"}'`
+$ bootstrap="${bootstrap}:9092"
+$ oc project hello-strimzi-consumer
+$ oc create configmap hello-strimzi-consumer-config \
+            --from-literal=BOOTSTRAP_SERVERS="${bootstrap}" \
+            --from-literal=CONSUMER_TOPIC=my-topic-1 \
+            --from-literal=GROUP_ID=my-group \
+            --from-literal=SECURITY_PROTOCOL=PLAINTEXT \
+            --from-literal=DESERIALIZER_CLASS=org.apache.kafka.common.serialization.StringSerializer \
+            --from-literal=AUTO_OFFSET_RESET=earliest \
+            --from-literal=ENABLE_AUTO_COMMIT=true
+```
+
+Set environment variables for producer application using the configmap:
+```
+$ oc set env dc/hello-strimzi-consumer --from configmap/hello-strimzi-consumer-config
+```
+
+Pod application logs should show messages received from producer:
+
+
+
+#### Kafka Stream
+
+
+
+
+
+#### Kafka Stream Queries
+
+
+
+## Automated Setup
+
+<TBA>
+
+
+
+## Demo
+
+<TBA>
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -185,7 +271,7 @@ my-cluster-zookeeper-nodes            ClusterIP      None             <none>    
 ```
 
 Edit the 
- 
+ 172.30.122.147
  
 Try the application URL:
 
@@ -195,23 +281,3 @@ Try the application URL:
 // check bootstrap server
 // apply the config map to app as env variables
 // build and deploy
-
-#### Kafka Stream
-
-
-#### Kafka Consumer
-
-
-#### Kafka Stream Queries
-
-
-
-## Automated Setup
-
-<TBA>
-
-
-
-## Demo
-
-<TBA>
