@@ -138,10 +138,37 @@ $ oc expose svc/hello-strimzi-producer
 route.route.openshift.io/hello-strimzi-producer exposed
 ```
 
+Create a configmap for the producer environment variables:
+```
+$ oc project kafka-cluster
+$ bootstrap=`oc get service my-cluster-kafka-external-bootstrap -o=jsonpath='{.status.loadBalancer.ingress[0].ip}{"\n"}'`
+$ bootstrap="${bootstrap}:9092"
+$ oc project hello-strimzi-producer
+$ oc create configmap hello-strimzi-producer-config \
+            --from-literal=BOOTSTRAP_SERVERS="${bootstrap}" \
+            --from-literal=PRODUCER_TOPIC=my-topic-1 \
+            --from-literal=GROUP_ID=my-group \
+            --from-literal=SECURITY_PROTOCOL=PLAINTEXT \
+            --from-literal=SERIALIZER_CLASS=org.apache.kafka.common.serialization.StringSerializer \
+            --from-literal=ACKS=1
+```
+
+Set environment variables for producer application using the configmap:
+```
+$ oc set env dc/hello-strimzi-producer --from configmap/hello-strimzi-producer-config
+```
+
+
+
+
+
+
 Make a configmap for the environment variables:
 ```
 $ oc create configmap hello-strimzi-producer-config --from-file=hello-strimzi-producer/src/main/resources/properties/producer.properties
 ```
+
+
  
 Note: Edit bootstrap IP in the configmap as needed based on the my-cluster-kafka-external-bootstrap service in kafka-cluster project
 ```
@@ -157,7 +184,7 @@ my-cluster-zookeeper-client           ClusterIP      172.30.204.158   <none>    
 my-cluster-zookeeper-nodes            ClusterIP      None             <none>                          2181/TCP,2888/TCP,3888/TCP   55m
 ```
 
-
+Edit the 
  
  
 Try the application URL:
