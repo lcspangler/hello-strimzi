@@ -225,7 +225,7 @@ $ oc project hello-strimzi-stream
 
 Create new application for the consumer:
 ```
- $ oc new-app openshift/wildfly-101-centos7~https://github.com/lcspangler/hello-strimzi.git --context-dir=/hello-strimzi-consumer --name=hello-strimzi-stream
+ $ oc new-app openshift/wildfly-101-centos7~https://github.com/lcspangler/hello-strimzi.git --context-dir=/hello-strimzi-stream--name=hello-strimzi-stream
 ```
 
 Confirm the build completes successfully:
@@ -247,6 +247,11 @@ $ oc create configmap hello-strimzi-stream-config \
             --from-literal=OUTBOUND_TOPIC=my-topic-2 \
             --from-literal=SECURITY_PROTOCOL=PLAINTEXT \
             --from-literal=AUTO_OFFSET_RESET=earliest 
+```
+
+Set environment variables for consumer application using the configmap:
+```
+$ oc set env dc/hello-strimzi-stream --from configmap/hello-strimzi-stream-config
 ```
 
 
