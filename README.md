@@ -29,9 +29,11 @@ References:
 #### OC and Minishift
 
 Follow the Minishift install instructions according to your environment:
+
 https://docs.okd.io/latest/minishift/getting-started/preparing-to-install.html
 
 Install the most recent `oc` binary:
+
 https://github.com/openshift/origin/releases 
 
 Ensure that Minishift and `oc` versions are aligned:
@@ -196,7 +198,7 @@ $ bootstrap="${bootstrap}:9092"
 $ oc project hello-strimzi-consumer
 $ oc create configmap hello-strimzi-consumer-config \
             --from-literal=BOOTSTRAP_SERVERS="${bootstrap}" \
-            --from-literal=CONSUMER_TOPIC=my-topic-1 \
+            --from-literal=CONSUMER_TOPIC=my-topic-2 \
             --from-literal=GROUP_ID=my-group \
             --from-literal=SECURITY_PROTOCOL=PLAINTEXT \
             --from-literal=DESERIALIZER_CLASS=org.apache.kafka.common.serialization.StringDeserializer \
@@ -225,7 +227,7 @@ $ oc project hello-strimzi-stream
 
 Create new application for the consumer:
 ```
- $ oc new-app openshift/wildfly-101-centos7~https://github.com/lcspangler/hello-strimzi.git --context-dir=/hello-strimzi-stream--name=hello-strimzi-stream
+ $ oc new-app openshift/wildfly-101-centos7~https://github.com/lcspangler/hello-strimzi.git --context-dir=/hello-strimzi-stream --name=hello-strimzi-stream
 ```
 
 Confirm the build completes successfully:
