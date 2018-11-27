@@ -7,11 +7,6 @@
   <version>1.0-SNAPSHOT</version>
   <name>hello-strimzi-producer</name>
 
-      <properties>
-            <maven.compiler.source>1.6</maven.compiler.source>
-            <maven.compiler.target>1.6</maven.compiler.target>
-      </properties>
-
   <dependencies>
   <!--  RestEasy -->
     <dependency>
@@ -64,6 +59,15 @@
 
   <build>
     <finalName>hello-strimzi-producer</finalName>
+    <plugins>    
+    	<plugin>    
+        	<artifactId>maven-compiler-plugin</artifactId>
+        	<configuration>
+            	<source>1.8</source>
+            	<target>1.8</target>
+        	</configuration>
+    	</plugin>
+  	</plugins>
   </build>
 
   <profiles>
