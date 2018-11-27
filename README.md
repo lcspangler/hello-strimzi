@@ -9,9 +9,9 @@ A Strimzi hello world example demonstrating Kafka on Openshift:
 ![hello strimzi](https://github.com/lcspangler/hello-strimzi/blob/master/images/hello_strimzi.png)
 
 
-Guide includes local Minishift environment setup instructions. 
+Guide includes local Minishift environment setup instructions.
 
-The application builds using s2i with the Wildfly - CentOS docker image, but the official Jboss EAP 7 image (registry.access.redhat.com/jboss-eap-7/eap70-openshift) and OpenShift can be substituted. 
+The application builds using s2i with the Wildfly - CentOS docker image, but the official Jboss EAP 7 image (registry.access.redhat.com/jboss-eap-7/eap70-openshift) and OpenShift can be substituted.
 
 References:
 - https://docs.okd.io/latest/minishift/getting-started/
@@ -34,7 +34,7 @@ https://docs.okd.io/latest/minishift/getting-started/preparing-to-install.html
 
 Install the most recent `oc` binary:
 
-https://github.com/openshift/origin/releases 
+https://github.com/openshift/origin/releases
 
 Ensure that Minishift and `oc` versions are aligned:
 ```
@@ -47,12 +47,17 @@ Server https://192.168.64.6:8443
 kubernetes v1.11.0+d4cacc0
 ```
 
+Enable the admin user so that you can login to the console as u:admin, p:admin
+```
+$ minishift addon apply admin-user
+```
+
 
 #### Strimzi Cluster and Kafka Topics
 
-Start minishift:
+Start minishift with enough resources:
 ```
-$ minishift start
+$ minishift start --cpus 4 --disk-size 100GB --memory 12GB
 ```
 
 Once the Kubernetes cluster is running, login as admin user:
@@ -248,7 +253,7 @@ $ oc create configmap hello-strimzi-stream-config \
             --from-literal=INBOUND_TOPIC=my-topic-1 \
             --from-literal=OUTBOUND_TOPIC=my-topic-2 \
             --from-literal=SECURITY_PROTOCOL=PLAINTEXT \
-            --from-literal=AUTO_OFFSET_RESET=earliest 
+            --from-literal=AUTO_OFFSET_RESET=earliest
 ```
 
 Set environment variables for consumer application using the configmap:
@@ -294,7 +299,7 @@ $ oc create configmap hello-strimzi-producer-config --from-file=hello-strimzi-pr
 ```
 
 
- 
+
 Note: Edit bootstrap IP in the configmap as needed based on the my-cluster-kafka-external-bootstrap service in kafka-cluster project
 ```
 $ oc get services
@@ -309,9 +314,9 @@ my-cluster-zookeeper-client           ClusterIP      172.30.204.158   <none>    
 my-cluster-zookeeper-nodes            ClusterIP      None             <none>                          2181/TCP,2888/TCP,3888/TCP   55m
 ```
 
-Edit the 
+Edit the
  172.30.122.147
- 
+
 Try the application URL:
 
 // create project
