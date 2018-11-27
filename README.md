@@ -168,7 +168,7 @@ Set environment variables for producer application using the configmap:
 $ oc set env dc/hello-strimzi-producer --from configmap/hello-strimzi-producer-config
 ```
 
-Try the URL GET http://hello-strimzi-producer-hello-strimzi-producer.192.168.64.6.nip.io/rest/message/helloworld
+Try the URL GET http://hello-strimzi-producer-hello-strimzi-producer.<host>.nip.io/rest/message/helloworld
 
 The producer application logs should show messages being sent:
 ![hello strimzi producer](https://github.com/lcspangler/hello-strimzi/blob/master/images/producer_logs.png)
