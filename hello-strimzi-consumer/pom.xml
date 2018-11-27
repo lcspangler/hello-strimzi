@@ -6,22 +6,27 @@
   <packaging>war</packaging>
   <version>1.0-SNAPSHOT</version>
   <name>hello-strimzi-consumer</name>
-  <dependencies>
 
+      <properties>
+            <maven.compiler.source>1.6</maven.compiler.source>
+            <maven.compiler.target>1.6</maven.compiler.target>
+      </properties>
+
+  <dependencies>
   <!-- Kafka -->
 	<dependency>
     	<groupId>org.apache.kafka</groupId>
   	  	<artifactId>kafka-clients</artifactId>
   	  	<version>2.0.0</version>
 	</dependency>
-     
+
    <!-- Servlet -->
 	<dependency>
     	<groupId>javax.servlet</groupId>
     	<artifactId>javax.servlet-api</artifactId>
     	<version>4.0.1</version>
 	</dependency>
-     
+
     <!-- Logging -->
              <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -39,7 +44,7 @@
             <artifactId>slf4j-simple</artifactId>
             <version>1.6.2</version>
         </dependency>
-     
+
    <!-- Test -->
     <dependency>
       <groupId>junit</groupId>
@@ -48,11 +53,11 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
-  
+
   <build>
     <finalName>hello-strimzi-consumer</finalName>
   </build>
-  
+
   <profiles>
     <profile>
      <!-- When built in OpenShift the 'openshift' profile will be used when invoking mvn. -->
@@ -77,5 +82,5 @@
       </build>
     </profile>
   </profiles>
-  
+
 </project>
