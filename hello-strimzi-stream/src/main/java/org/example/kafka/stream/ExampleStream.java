@@ -49,8 +49,7 @@ public class ExampleStream {
 	  KStream<String, String > exampleStream = builder.stream("my-topic-1");
 	  
 	  KafkaStreams stream = new KafkaStreams(builder.build(), props);
-	  
-	  
+	 
 //      StreamsBuilder builder = new StreamsBuilder();
 //      KStream<String, String> textLines = builder.stream("my-topic-1");
 //      KTable<String, Long> wordCounts = textLines.flatMapValues(new ValueMapper<String, Iterable<String>>() {
@@ -69,6 +68,8 @@ public class ExampleStream {
 //
 //      KafkaStreams streams = new KafkaStreams(builder.build(), props);
 //      
+	  exampleStream.to("my-topic-2");
+	  
       log.info("Starting stream: " + stream.toString());
       stream.start();
   }
