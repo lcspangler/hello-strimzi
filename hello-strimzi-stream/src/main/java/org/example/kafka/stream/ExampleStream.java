@@ -24,46 +24,53 @@ public class ExampleStream {
   private static final Logger log = LogManager.getLogger(ExampleStream.class);
 
   private ExampleStreamConfig config;
-  private KafkaStreams streams;
-  private StreamsBuilder builder;
+  //private KafkaStreams streams;
+  //private StreamsBuilder builder;
   private Properties props;
 
   public ExampleStream() {
     config = ExampleStreamConfig.fromEnv();
     props = ExampleStreamConfig.createProperties(config);
-    builder = new StreamsBuilder();
-    streams = new KafkaStreams(builder.build(), props);
+    //builder = new StreamsBuilder();
+    //streams = new KafkaStreams(builder.build(), props);
   }
 
   @SuppressWarnings("unchecked")
   public void stream() {
-//      Properties props = new Properties();
-//      props.put(StreamsConfig.APPLICATION_ID_CONFIG, "my-group");
-//      props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, config.getBootstrapServers());
-//      props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
-//      props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+      Properties props = new Properties();
+      props.put(StreamsConfig.APPLICATION_ID_CONFIG, "example-stream-app");
+      props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, config.getBootstrapServers());
+      props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.StringSerde.class.getName());
+      props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.StringSerde.class.getName());
 	  props.put(StreamsConfig.CACHE_MAX_BYTES_BUFFERING_CONFIG, 0);
-
-      StreamsBuilder builder = new StreamsBuilder();
-      KStream<String, String> textLines = builder.stream("my-topic-1");
-      KTable<String, Long> wordCounts = textLines.flatMapValues(new ValueMapper<String, Iterable<String>>() {
-              @Override
-              public Iterable<String> apply(String textLine) {
-                  return Arrays.asList(textLine.toLowerCase().split("\\W+"));
-              }
-          }).groupBy(new KeyValueMapper<String, String, String>() {
-              @Override
-              public String apply(String key, String word) {
-                  return word;
-              }
-          }).count(Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as("counts-store"));
-
-      wordCounts.toStream().to("my-topic-2", Produced.with(Serdes.String(), Serdes.Long()));
-
-      KafkaStreams streams = new KafkaStreams(builder.build(), props);
-      
-      log.info("Starting stream: " + streams.toString());
-      streams.start();
+	  
+	  StreamsBuilder builder = new StreamsBuilder();
+	  
+	  KStream<String, String > exampleStream = builder.stream("my-topic-1");
+	  
+	  KafkaStreams stream = new KafkaStreams(builder.build(), props);
+	  
+	  
+//      StreamsBuilder builder = new StreamsBuilder();
+//      KStream<String, String> textLines = builder.stream("my-topic-1");
+//      KTable<String, Long> wordCounts = textLines.flatMapValues(new ValueMapper<String, Iterable<String>>() {
+//              @Override
+//              public Iterable<String> apply(String textLine) {
+//                  return Arrays.asList(textLine.toLowerCase().split("\\W+"));
+//              }
+//          }).groupBy(new KeyValueMapper<String, String, String>() {
+//              @Override
+//              public String apply(String key, String word) {
+//                  return word;
+//              }
+//          }).count(Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as("counts-store"));
+//
+//      wordCounts.toStream().to("my-topic-2", Produced.with(Serdes.String(), Serdes.Long()));
+//
+//      KafkaStreams streams = new KafkaStreams(builder.build(), props);
+//      
+      log.info("Starting stream: " + stream.toString());
+      stream.start();
   }
 
 }
