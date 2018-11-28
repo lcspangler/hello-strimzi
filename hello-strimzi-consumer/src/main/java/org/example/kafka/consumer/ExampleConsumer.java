@@ -20,13 +20,11 @@ public class ExampleConsumer {
 	private ExampleConsumerConfig config;
 	private KafkaConsumer consumer;
 	private Properties props;
-	private boolean commit;
 
 	public ExampleConsumer() {
 		config = ExampleConsumerConfig.fromEnv();
 		props = ExampleConsumerConfig.createProperties(config);
 		consumer = new KafkaConsumer(props);
-		commit = !Boolean.parseBoolean(config.getEnableAutoCommit());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -49,7 +47,7 @@ public class ExampleConsumer {
 						record.key(), record.value(), record.offset());
 			}
 
-			List<PartitionInfo> partitions = consumer.partitionsFor("my-topic");
+			List<PartitionInfo> partitions = consumer.partitionsFor("my-topic-1");
 			for (PartitionInfo partition : partitions) {
 				log.info("TOPIC: {}", partition.topic());
 				log.info("PARTITION: {}", partition.partition());
