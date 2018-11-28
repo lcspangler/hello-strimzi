@@ -42,6 +42,7 @@ public class ExampleStream {
       props.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG, config.getBootstrapServers());
       props.put(StreamsConfig.DEFAULT_KEY_SERDE_CLASS_CONFIG, Serdes.String().getClass());
       props.put(StreamsConfig.DEFAULT_VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass());
+      props.put(StreamsConfig.CACHE_MAX_BYTES_BUFFERING_CONFIG, 0);
 
       StreamsBuilder builder = new StreamsBuilder();
       KStream<String, String> textLines = builder.stream("my-topic-1");
@@ -57,10 +58,11 @@ public class ExampleStream {
               }
           }).count(Materialized.<String, Long, KeyValueStore<Bytes, byte[]>>as("counts-store"));
 
-
       wordCounts.toStream().to("my-topic-2", Produced.with(Serdes.String(), Serdes.Long()));
 
       KafkaStreams streams = new KafkaStreams(builder.build(), props);
+      
+      log.info("Starting stream: " + streams.toString());
       streams.start();
   }
 
